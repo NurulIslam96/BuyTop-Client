@@ -7,12 +7,8 @@ import useSeller from "../Hooks/useSeller";
 
 const DashboardLayout = () => {
   const { user } = useContext(AuthContext);
-  const [isAdmin, isAdminLoading] = useAdmin(user?.email);
-  const [isSeller,isSellerLoading] = useSeller(user?.email);
-
-  if(isAdminLoading || isSellerLoading){
-    return <Spinner></Spinner>
-  }
+  const [isAdmin] = useAdmin(user?.email);
+  const [isSeller] = useSeller(user?.email);
 
   return (
     <div className="container mx-auto flex">
@@ -25,15 +21,16 @@ const DashboardLayout = () => {
         <div className="drawer-content">
           <Outlet></Outlet>
         </div>
-        <div className="drawer-side">
+        <div className="drawer-side h-[200px] text-xl font-semibold my-5 rounded-md">
           <label htmlFor="dashboard-drawer" className="drawer-overlay"></label>
-          <ul className="menu p-4 w-80">
+          <ul className="menu p-4 w-80 bg-sky-100">
             {isSeller && (
               <>
-                <li>
+                <li
+                 className="rounded-md">
                   <Link to={"/dashboard/addproduct"}>Add a Product</Link>
                 </li>
-                <li>
+                <li className="rounded-md">
                   <Link to={"/dashboard/myproducts"}>My Products</Link>
                 </li>
               </>
