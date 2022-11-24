@@ -1,14 +1,17 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { setUserToken } from "../../customFunction/setUserToken";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const Signup = () => {
   const { register, handleSubmit, reset } = useForm();
-  const { createUser, googleSignIn, updateUser, user } =
-    useContext(AuthContext);
+  const { createUser, googleSignIn, updateUser } = useContext(AuthContext);
+  const location = useLocation()
+  const navigate = useNavigate()
+  const from = location?.state?.from?.path || "/";
+
   const handleSignUp = (data) => {
     const role = data.role;
     const url = `https://api.imgbb.com/1/upload?&key=${process.env.REACT_APP_image_key}`;
@@ -23,10 +26,17 @@ const Signup = () => {
       .then((imageData) => {
         createUser(data.email, data.password)
           .then((result) => {
+            const newProfile = {
+              email: data.email,
+              displayName: data.name,
+              photoURL: imageData.data.display_url,
+            };
             handleUpdateUserProfile(data.name, imageData.data.display_url);
+            setUserToken(newProfile, role);
+            toast.success("Registered Succesfully");
+            navigate(from, {replace: true})
           })
           .catch((err) => console.log(err));
-        setUserToken(user, role);
         reset();
       });
   };
@@ -47,6 +57,7 @@ const Signup = () => {
       const role = "Seller";
       setUserToken(result.user, role);
     });
+    navigate(from, {replace: true})
   };
   return (
     <div className="container mx-auto">

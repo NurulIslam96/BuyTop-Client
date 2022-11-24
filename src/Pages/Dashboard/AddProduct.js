@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import React, { useContext, useState } from "react";
 import ReactDatePicker from "react-datepicker";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const AddProduct = () => {
@@ -40,7 +41,21 @@ const AddProduct = () => {
       status: "Available",
       category: data.category,
     };
-    console.log(productDetails);
+    fetch(`${process.env.REACT_APP_api_link}/addproduct`,{
+      method:"POST",
+      headers:{
+        "content-type":"application/json",
+        authorization: `bearer ${localStorage.getItem("buytop-token")}`
+      },
+      body: JSON.stringify(productDetails)
+    })
+    .then(res=>res.json())
+    .then(data=>{
+      if(data.acknowledged){
+        toast.success("Product Added Successfully")
+        reset()
+      }
+    })
   };
 
   return (

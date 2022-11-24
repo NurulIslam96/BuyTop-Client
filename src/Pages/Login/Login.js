@@ -1,18 +1,23 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { setUserToken } from "../../customFunction/setUserToken";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const Login = () => {
   const { register, handleSubmit, reset} = useForm();
   const {signIn,googleSignIn} = useContext(AuthContext);
+  const location = useLocation()
+  const navigate = useNavigate()
+  const from = location?.state?.from?.path || "/";
+
   const handleEmailSignIn = (data) => {
     signIn(data.email, data.password)
     .then(result=>{
       setUserToken(result.user)
       reset()
+      navigate(from, {replace: true})
     })
     .catch(err=>console.log(err))
   }
@@ -22,6 +27,7 @@ const Login = () => {
       const role = "Seller"
       setUserToken(result.user, role)
       toast.success(`Welcome ${result.user.displayName}`)
+      navigate(from, {replace: true})
     })
   }
   return (
