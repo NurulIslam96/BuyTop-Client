@@ -5,14 +5,18 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import Authprovider from "./contexts/AuthProvider";
 import { Toaster } from "react-hot-toast";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+const queryClient = new QueryClient();
 root.render(
   <React.StrictMode>
-    <Authprovider>
-      <App />
-      <Toaster/>
-    </Authprovider>
+    <QueryClientProvider client={queryClient}>
+      <Authprovider>
+        <App />
+        <Toaster />
+      </Authprovider>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 

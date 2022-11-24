@@ -7,10 +7,10 @@ import { AuthContext } from "../../contexts/AuthProvider";
 
 const AddProduct = () => {
   const { register, handleSubmit, reset } = useForm();
-  const [productImage, setProductImage] = useState("");
   const { user } = useContext(AuthContext);
   const [startDate, setStartDate] = useState(new Date());
   const date = format(startDate, "PP");
+
   const handleAddProduct = (data) => {
     const purchaseDate = data.date.slice(0, 4);
     const url = `https://api.imgbb.com/1/upload?&key=${process.env.REACT_APP_image_key}`;
@@ -23,39 +23,38 @@ const AddProduct = () => {
     })
       .then((res) => res.json())
       .then((imageData) => {
-        setProductImage(imageData.data.display_url);
+        const productDetails = {
+          email: user?.email,
+          userPhoto: user?.photoURL,
+          userName: user?.displayName,
+          productName: data.name,
+          purchaseYear: purchaseDate,
+          condition: data.condition,
+          postDate: date,
+          location: data.location,
+          phone: data.phone,
+          description: data.description,
+          productPhoto: imageData.data.display_url,
+          price: data.price,
+          status: "Available",
+          category: data.category,
+        };
+        fetch(`${process.env.REACT_APP_api_link}/addproduct`,{
+          method:"POST",
+          headers:{
+            "content-type":"application/json",
+            authorization: `bearer ${localStorage.getItem("buytop-token")}`
+          },
+          body: JSON.stringify(productDetails)
+        })
+        .then(res=>res.json())
+        .then(data=>{
+          if(data.acknowledged){
+            toast.success("Product Added Successfully")
+            reset()
+          }
+        })
       });
-    const productDetails = {
-      email: user?.email,
-      userPhoto: user?.photoURL,
-      userName: user?.displayName,
-      productName: data.name,
-      purchaseYear: purchaseDate,
-      condition: data.condition,
-      postDate: date,
-      location: data.location,
-      phone: data.phone,
-      description: data.description,
-      productPhoto: productImage,
-      price: data.price,
-      status: "Available",
-      category: data.category,
-    };
-    fetch(`${process.env.REACT_APP_api_link}/addproduct`,{
-      method:"POST",
-      headers:{
-        "content-type":"application/json",
-        authorization: `bearer ${localStorage.getItem("buytop-token")}`
-      },
-      body: JSON.stringify(productDetails)
-    })
-    .then(res=>res.json())
-    .then(data=>{
-      if(data.acknowledged){
-        toast.success("Product Added Successfully")
-        reset()
-      }
-    })
   };
 
   return (
