@@ -20,8 +20,8 @@ const Navbar = () => {
   };
 
   return (
-    <div className="shadow-md bg-neutral-800">
-      <div className="px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
+    <div className="shadow-md">
+      <div className="px-4 py-5 container mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
         <div className="relative flex items-center justify-between">
           <NavLink
             to="/"
@@ -74,23 +74,10 @@ const Navbar = () => {
                 <li>
                   <NavLink
                     style={activeLink}
-                    to="/addservice"
-                    aria-label="Add Service"
-                    title="Add Service"
+                    to="/dashboard"
                     className="font-medium transition-colors duration-300 hover:text-blue-600"
                   >
-                    Add Service
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    style={activeLink}
-                    to="/myreviews"
-                    aria-label="myreviews"
-                    title="myreviews"
-                    className="font-medium transition-colors duration-300 hover:text-blue-600"
-                  >
-                    My Reviews
+                    Dashboard
                   </NavLink>
                 </li>
                 <span className="font-semibold">{user?.displayName}</span>
@@ -265,12 +252,12 @@ const Navbar = () => {
                     <ul className="space-y-4">
                       <li>
                         <NavLink
-                          to="/categories"
+                          to="/dashboard"
                           aria-label="Categories"
                           title="Categories"
                           className="font-medium tracking-wide text-blue-900 transition-colors duration-300 hover:text-blue-600"
                         >
-                          Categories
+                          Dashboard
                         </NavLink>
                       </li>
                       <li>

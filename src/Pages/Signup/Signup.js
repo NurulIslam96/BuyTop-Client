@@ -2,21 +2,56 @@ import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { setUserToken } from "../../customFunction/setUserToken";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const Signup = () => {
-  const { register, handleSubmit } = useForm();
-  const { createUser, googleSignIn } = useContext(AuthContext);
-  const handleSignUp = (data) => {};
+  const { register, handleSubmit, reset } = useForm();
+  const { createUser, googleSignIn, updateUser, user } =
+    useContext(AuthContext);
+  const handleSignUp = (data) => {
+    const role = data.role;
+    const url = `https://api.imgbb.com/1/upload?&key=${process.env.REACT_APP_image_key}`;
+    const image = data.image[0];
+    const formData = new FormData();
+    formData.append("image", image);
+    fetch(url, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((imageData) => {
+        createUser(data.email, data.password)
+          .then((result) => {
+            handleUpdateUserProfile(data.name, imageData.data.display_url);
+          })
+          .catch((err) => console.log(err));
+        setUserToken(user, role);
+        reset();
+      });
+  };
+
+  const handleUpdateUserProfile = (displayName, photoURL) => {
+    const profile = {
+      displayName: displayName,
+      photoURL: photoURL,
+    };
+    updateUser(profile)
+      .then(() => {})
+      .catch((e) => console.error(e));
+  };
+
   const handleGoogleLogin = () => {
     googleSignIn().then((result) => {
       toast.success(`Welcome ${result.user.displayName}`);
+      const role = "Seller";
+      setUserToken(result.user, role);
     });
   };
   return (
     <div className="container mx-auto">
       <section className="min-h-screen">
-        <div className="container px-6 py-12">
+        <div className="px-6 py-12 h-full">
           <div className="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
             <div className="md:w-8/12 md:block hidden lg:w-6/12 mb-12 md:mb-0">
               <img

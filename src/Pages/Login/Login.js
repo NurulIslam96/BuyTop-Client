@@ -2,24 +2,32 @@ import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { setUserToken } from "../../customFunction/setUserToken";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const Login = () => {
-  const { register, handleSubmit } = useForm();
-  const {signIn,googleSignIn, user} = useContext(AuthContext);
+  const { register, handleSubmit, reset} = useForm();
+  const {signIn,googleSignIn} = useContext(AuthContext);
   const handleEmailSignIn = (data) => {
-    console.log(data)
+    signIn(data.email, data.password)
+    .then(result=>{
+      setUserToken(result.user)
+      reset()
+    })
+    .catch(err=>console.log(err))
   }
   const handleGoogleLogin = () => {
     googleSignIn()
     .then(result => {
+      const role = "Seller"
+      setUserToken(result.user, role)
       toast.success(`Welcome ${result.user.displayName}`)
     })
   }
   return (
     <div className="container mx-auto">
-      <section className="h-screen">
-        <div className="container px-6 py-12 h-full">
+      <section>
+        <div className="px-6 py-12">
           <div className="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
             <div className="md:w-8/12 md:block hidden lg:w-6/12 mb-12 md:mb-0">
               <img
@@ -59,7 +67,7 @@ const Login = () => {
                     <Link href="#">Forgot Password?</Link>
                   </div>
                 </div>
-                <button className="block w-full p-3 text-center rounded-sm text-white bg-blue-500">
+                <button type="submit" className="block w-full p-3 text-center rounded-sm text-white bg-blue-500">
                   Sign in
                 </button>
               </form>

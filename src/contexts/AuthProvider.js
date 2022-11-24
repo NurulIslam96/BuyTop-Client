@@ -22,9 +22,11 @@ const Authprovider = ({ children }) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
-  const updateUser = (name) => {
-    return updateProfile(auth.currentUser, name)
+  
+  const updateUser = (profile) => {
+    return updateProfile(auth.currentUser,profile)
   };
+
   const signIn = (email, password) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
@@ -44,6 +46,7 @@ const Authprovider = ({ children }) => {
 
   //Signout
   const logOut = () =>{
+    localStorage.removeItem("buytop-token")
     return signOut(auth);
   }
 
