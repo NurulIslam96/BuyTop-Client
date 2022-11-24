@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { Link, Outlet } from "react-router-dom";
-import Spinner from "../components/Spinner";
 import { AuthContext } from "../contexts/AuthProvider";
 import useAdmin from "../Hooks/useAdmin";
 import useSeller from "../Hooks/useSeller";

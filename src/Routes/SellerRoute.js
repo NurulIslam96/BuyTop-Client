@@ -6,7 +6,7 @@ import useSeller from "../Hooks/useSeller";
 
 const SellerRoute = ({ children }) => {
   const { user } = useContext(AuthContext);
-  const { isSeller, isSellerLoading } = useSeller(user?.email);
+  const [isSeller, isSellerLoading] = useSeller(user?.email)
   const location = useLocation();
   if (isSellerLoading) {
     return <Spinner></Spinner>;

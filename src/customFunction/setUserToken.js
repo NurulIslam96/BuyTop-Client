@@ -4,6 +4,7 @@ export const setUserToken = (user, role) => {
         name: user.displayName,
         photo: user.photoURL,
         role: role,
+        verified: false,
     }
     fetch(`${process.env.REACT_APP_api_link}/user/${user?.email}`,{
         method:"PUT",

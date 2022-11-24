@@ -6,12 +6,12 @@ import { AuthContext } from "../../contexts/AuthProvider";
 
 const AddProduct = () => {
   const { register, handleSubmit, reset } = useForm();
-  const [productImage, setProductImage] = useState("")
-  const {user} = useContext(AuthContext)
+  const [productImage, setProductImage] = useState("");
+  const { user } = useContext(AuthContext);
   const [startDate, setStartDate] = useState(new Date());
   const date = format(startDate, "PP");
   const handleAddProduct = (data) => {
-    const purchaseDate = data.date.slice(0,4)
+    const purchaseDate = data.date.slice(0, 4);
     const url = `https://api.imgbb.com/1/upload?&key=${process.env.REACT_APP_image_key}`;
     const image = data.image[0];
     const formData = new FormData();
@@ -21,7 +21,9 @@ const AddProduct = () => {
       body: formData,
     })
       .then((res) => res.json())
-      .then((imageData) => {setProductImage(imageData.data.display_url)})
+      .then((imageData) => {
+        setProductImage(imageData.data.display_url);
+      });
     const productDetails = {
       email: user?.email,
       userPhoto: user?.photoURL,
@@ -34,10 +36,12 @@ const AddProduct = () => {
       phone: data.phone,
       description: data.description,
       productPhoto: productImage,
-      price: data.price
-    }
-    console.log(productDetails)
-  }
+      price: data.price,
+      status: "Available",
+      category: data.category,
+    };
+    console.log(productDetails);
+  };
 
   return (
     <div className="flex items-center justify-center p-12">
@@ -60,6 +64,36 @@ const AddProduct = () => {
             <div className="w-full px-3 sm:w-1/2">
               <div className="mb-5">
                 <label className="mb-3 block text-base font-medium text-[#07074D]">
+                  Product Category
+                </label>
+                <select
+                  className="select select-info w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                  {...register("category", { required: true })}
+                >
+                  <option>Elitebook</option>
+                  <option>Ultrabook</option>
+                  <option>Gaming Laptop</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="-mx-3 flex flex-wrap">
+            <div className="w-full px-3 sm:w-1/2">
+              <div className="mb-5">
+                <label className="mb-3 block text-base font-medium text-[#07074D]">
+                  Mobile Number
+                </label>
+                <input
+                  type="number"
+                  placeholder="+880"
+                  {...register("phone", { required: true })}
+                  className="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                />
+              </div>
+            </div>
+            <div className="w-full px-3 sm:w-1/2">
+              <div className="mb-5">
+                <label className="mb-3 block text-base font-medium text-[#07074D]">
                   Condition
                 </label>
                 <select
@@ -72,20 +106,6 @@ const AddProduct = () => {
                 </select>
               </div>
             </div>
-          </div>
-          <div className="mb-5">
-            <label
-              htmlFor="guest"
-              className="mb-3 block text-base font-medium text-[#07074D]"
-            >
-              Mobile Number
-            </label>
-            <input
-              type="number"
-              placeholder="+880"
-              {...register("phone", { required: true })}
-              className="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-            />
           </div>
           <div className="-mx-3 flex flex-wrap">
             <div className="w-full px-3 sm:w-1/2">
@@ -145,9 +165,7 @@ const AddProduct = () => {
             />
           </div>
           <div className="mb-5">
-            <label
-              className="mb-3 block text-base font-medium text-[#07074D]"
-            >
+            <label className="mb-3 block text-base font-medium text-[#07074D]">
               Price
             </label>
             <input
@@ -158,9 +176,7 @@ const AddProduct = () => {
             />
           </div>
           <div className="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md mb-5">
-            <label className="block">
-              Select Product photo:
-            </label>
+            <label className="block">Select Product photo:</label>
             <input
               type="file"
               accept="image/*"
