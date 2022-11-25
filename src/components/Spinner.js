@@ -2,7 +2,7 @@ import React from 'react';
 
 const Spinner = () => {
   return (
-    <div className="h-screen flex justify-center items-center bg-sky-100">
+    <div className="h-screen flex justify-center items-center">
       <div className="flex animate-pulse text-4xl font-bold justify-center items-center">
         <p>L</p>
         <div className="relative w-7 h-7 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import { AuthContext } from "../../contexts/AuthProvider";
 
 const Login = () => {
   const { register, handleSubmit, reset} = useForm();
+  const [error, setError] = useState("")
   const {signIn,googleSignIn} = useContext(AuthContext);
   const location = useLocation()
   const navigate = useNavigate()
@@ -16,10 +17,11 @@ const Login = () => {
     signIn(data.email, data.password)
     .then(result=>{
       setUserToken(result.user)
+      setError("")
       reset()
       navigate(from, {replace: true})
     })
-    .catch(err=>console.log(err))
+    .catch(err=>setError(err.message))
   }
   const handleGoogleLogin = () => {
     googleSignIn()
@@ -73,6 +75,9 @@ const Login = () => {
                     <Link href="#">Forgot Password?</Link>
                   </div>
                 </div>
+                {error && <p className="px-3 text-sm text-red-600">
+                  {error}
+                </p>}
                 <button type="submit" className="block w-full p-3 text-center rounded-sm text-white bg-blue-500">
                   Sign in
                 </button>
