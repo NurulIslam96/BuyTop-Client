@@ -2,8 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Main from "../layouts/Main";
 import Products from "../Pages/Categories/Products";
-import AddProduct from "../Pages/Dashboard/AddProduct";
-import MyProducts from "../Pages/Dashboard/MyProducts";
+import MyOrders from "../Pages/Dashboard/Buyer/MyOrders";
+import AddProduct from "../Pages/Dashboard/Seller/AddProduct";
+import MyProducts from "../Pages/Dashboard/Seller/MyProducts";
 import Login from "../Pages/Login/Login";
 import Signup from "../Pages/Signup/Signup";
 import PrivateRoute from "./PrivateRoute";
@@ -24,8 +25,7 @@ export const routes = createBrowserRouter([
             },
             {
                 path:'/category/:id',
-                element: <PrivateRoute><Products></Products></PrivateRoute>,
-                loader: ({params})=>fetch(`${process.env.REACT_APP_api_link}/category/${params.id}`)
+                element: <PrivateRoute><Products></Products></PrivateRoute>
             },
             {
                 path:'/dashboard',
@@ -39,6 +39,10 @@ export const routes = createBrowserRouter([
                         path:'/dashboard/myproducts',
                         element: <SellerRoute><MyProducts></MyProducts></SellerRoute>
                     },
+                    {
+                        path:'/dashboard/myorders',
+                        element: <MyOrders></MyOrders>
+                    }
                 ]
             }
         ]

@@ -1,9 +1,15 @@
-import React, { useState } from "react";
-import { FaListAlt, FaDollarSign } from "react-icons/fa";
+import React, { useContext, useState } from "react";
+import { FaListAlt, FaDollarSign, FaCheckCircle } from "react-icons/fa";
+import { AuthContext } from "../../contexts/AuthProvider";
+import useSeller from "../../Hooks/useSeller";
 import BookModal from "./BookModal";
 
-const ProductsDetails = ({ result }) => {
+const ProductsDetails = ({ result, refetch }) => {
   const [bookDetails, setBookDetails] = useState(null);
+  const { user } = useContext(AuthContext);
+  const [isSeller]=useSeller(user?.email);
+  console.log(result);
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
       {result?.map((product) => (
@@ -26,7 +32,7 @@ const ProductsDetails = ({ result }) => {
                       <div className="flex bg-white px-4 py-1 space-x-5 rounded-lg overflow-hidden shadow">
                         <p className="flex items-center font-medium text-gray-800">
                           <FaDollarSign className="w-5 h-5 fill-current mr-2" />
-                          {product.price}
+                          {product.resalePrice}
                         </p>
                       </div>
                     </div>
@@ -36,7 +42,6 @@ const ProductsDetails = ({ result }) => {
                   {product?.status}
                 </span>
               </div>
-
               <div className="mt-4">
                 <h2
                   className="font-medium text-base md:text-lg text-gray-800 line-clamp-1"
@@ -54,7 +59,7 @@ const ProductsDetails = ({ result }) => {
               <p className="mt-2 text-gray-800">
                 <FaListAlt />
                 <span className="mt-2 xl:mt-0">
-                  {product.description.slice(0, 120) + "..."}
+                  {product.description.slice(0, 140) + "..."}
                 </span>
               </p>
               <div className="w-full flex justify-between gap-4 mt-4">
@@ -67,40 +72,50 @@ const ProductsDetails = ({ result }) => {
                   <span className="mt-2 xl:mt-0">{product?.postDate}</span>
                 </p>
               </div>
-
-              <div className="grid grid-cols-2 mt-8">
-                <div className="flex items-center">
-                  <div className="relative">
-                    <img
-                      src={product?.userPhoto}
-                      className="rounded-full w-6 h-6 md:w-8 md:h-8 bg-gray-200"
-                      alt=""
-                    />
+              <div className="w-full flex justify-between gap-4 mt-4">
+                <p className="inline-flex flex-col text-gray-800">
+                  Original Price:
+                  <span className="mt-2 xl:mt-0">${product?.originalPrice}</span>
+                </p>
+                <p className="inline-flex flex-col text-gray-800">
+                  Phone Number
+                  <span className="mt-2 xl:mt-0">+{product?.phone.slice(0,11)}</span>
+                </p>
+              </div>
+              <div className="grid grid-cols-6 mt-8">
+                <div className="grid col-span-4 grid-flow-col items-center">
+                  <div className="flex items-center">
+                    <div className="relative grid col-span-1">
+                      <img
+                        src={product?.userPhoto}
+                        className="rounded-full w-6 h-6 md:w-8 md:h-8 bg-gray-200"
+                        alt=""
+                      />
+                    </div>
+                    <p className="ml-2 text-gray-800 line-clamp-1">
+                      {product?.userName}
+                    </p>
+                    {product?.isVerified && <FaCheckCircle title="Verified User" className="mx-1 text-blue-500" />}
                   </div>
-                  <p className="ml-2 text-gray-800 line-clamp-1">
-                    {product?.userName}
-                  </p>
                 </div>
-
-                <div className="flex justify-end">
+                <div className="grid col-span-2 justify-end">
                   <p className="inline-block font-semibold text-primary whitespace-nowrap leading-tight rounded-xl">
-                    {product.status === "Available" ||
-                    product.status === "Advertised" ? (
+                    {!isSeller ? (
                       <label
-                        htmlFor="my-modal-3"
+                        htmlFor="booking-modal"
                         onClick={() => setBookDetails(product)}
                         className="mt-3 ml-3 px-3 py-2 rounded-lg z-10 bg-blue-500 text-sm font-medium text-white select-none"
                       >
                         Book Now
                       </label>
                     ) : (
-                      <span className="mt-3 ml-3 px-3 py-2 rounded-lg z-10 bg-gray-500 text-sm font-medium text-white select-none">
-                        {product?.status}
-                      </span>
+                      <label
+                        htmlFor="booking-modal"
+                        className="mt-3 ml-3 px-3 py-2 rounded-lg z-10 bg-gray-500 text-sm font-medium text-white select-none"
+                      >
+                        N/A for Sellers
+                      </label>
                     )}
-                    {/* The button to open modal */}
-
-                    {/* Put this part before </body> tag */}
                   </p>
                 </div>
               </div>
@@ -108,9 +123,13 @@ const ProductsDetails = ({ result }) => {
           </div>
         </div>
       ))}
-      {
-        bookDetails && <BookModal bookDetails={bookDetails} />
-      }
+      {bookDetails && (
+        <BookModal
+          bookDetails={bookDetails}
+          setBookDetails={setBookDetails}
+          refetch={refetch}
+        />
+      )}
     </div>
   );
 };
