@@ -1,12 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Main from "../layouts/Main";
+import Products from "../Pages/Categories/Products";
 import AddProduct from "../Pages/Dashboard/AddProduct";
 import MyProducts from "../Pages/Dashboard/MyProducts";
 import Login from "../Pages/Login/Login";
-import Elitebook from "../Pages/Products/Elitebook";
-import GamingLaptop from "../Pages/Products/GamingLaptop";
-import Ultrabook from "../Pages/Products/Ultrabook";
 import Signup from "../Pages/Signup/Signup";
 import PrivateRoute from "./PrivateRoute";
 import SellerRoute from "./SellerRoute";
@@ -25,16 +23,9 @@ export const routes = createBrowserRouter([
                 element: <Signup></Signup>
             },
             {
-                path:'/elitebook',
-                element:<PrivateRoute><Elitebook></Elitebook></PrivateRoute>
-            },
-            {
-                path:'/ultrabook',
-                element:<PrivateRoute><Ultrabook></Ultrabook></PrivateRoute>
-            },
-            {
-                path:'/gaminglaptop',
-                element:<PrivateRoute><GamingLaptop></GamingLaptop></PrivateRoute>
+                path:'/category/:id',
+                element: <PrivateRoute><Products></Products></PrivateRoute>,
+                loader: ({params})=>fetch(`${process.env.REACT_APP_api_link}/category/${params.id}`)
             },
             {
                 path:'/dashboard',

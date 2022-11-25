@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
 import { FaChevronCircleDown, FaUser } from "react-icons/fa";
@@ -6,8 +6,15 @@ import SiteLogo from "../../assets/site-logo/site-logo.png";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+  const [categories, setCategories] = useState([])
   const [openBar, setOpenBar] = React.useState(false);
   const [profileBar, setProfileBar] = React.useState(false);
+
+  useEffect(()=>{
+    fetch(`${process.env.REACT_APP_api_link}/categories`)
+    .then(res=>res.json())
+    .then(data=>setCategories(data))
+  },[])
 
   const activeLink = ({ isActive }) => {
     return {
@@ -49,15 +56,18 @@ const Navbar = () => {
                   tabIndex={0}
                   className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
                 >
-                  <li className="transition-colors duration-300 hover:text-blue-600">
-                    <Link to={'/elitebook'} className="hover:text-blue-600">Elitebook</Link>
-                  </li>
-                  <li>
-                    <Link to={'/ultrabook'} className="hover:text-blue-600">Ultrabook</Link>
-                  </li>
-                  <li>
-                    <Link to={'/gaminglaptop'} className="hover:text-blue-600">Gaming Laptop</Link>
-                  </li>
+                  {categories &&
+                    categories.map((category) => (
+                      <li
+                        key={category._id}
+                        category={category}
+                        className="transition-colors duration-300 hover:text-blue-600"
+                      >
+                        <Link to={`/category/${category._id}`} className="hover:text-blue-600">
+                          {category.Category}
+                        </Link>
+                      </li>
+                    ))}
                 </ul>
               </div>
             </li>
