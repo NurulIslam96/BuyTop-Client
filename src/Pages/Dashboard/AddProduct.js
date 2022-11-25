@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import ReactDatePicker from "react-datepicker";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const AddProduct = () => {
@@ -10,6 +11,7 @@ const AddProduct = () => {
   const { user } = useContext(AuthContext);
   const [startDate, setStartDate] = useState(new Date());
   const date = format(startDate, "PP");
+  const navigate = useNavigate();
 
   const handleAddProduct = (data) => {
     const purchaseDate = data.date.slice(0, 4);
@@ -52,6 +54,7 @@ const AddProduct = () => {
           if(data.acknowledged){
             toast.success("Product Added Successfully")
             reset()
+            navigate('/myproducts')
           }
         })
       });

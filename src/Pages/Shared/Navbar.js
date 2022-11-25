@@ -50,10 +50,13 @@ const Navbar = () => {
                   className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
                 >
                   <li className="transition-colors duration-300 hover:text-blue-600">
-                    <Link>Item 1</Link>
+                    <Link to={'/elitebook'} className="hover:text-blue-600">Elitebook</Link>
                   </li>
                   <li>
-                    <Link>Item 2</Link>
+                    <Link to={'/ultrabook'} className="hover:text-blue-600">Ultrabook</Link>
+                  </li>
+                  <li>
+                    <Link to={'/gaminglaptop'} className="hover:text-blue-600">Gaming Laptop</Link>
                   </li>
                 </ul>
               </div>
