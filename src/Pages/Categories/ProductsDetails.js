@@ -22,10 +22,10 @@ const ProductsDetails = ({ result }) => {
                       className="md:w-56"
                       alt=""
                     />
-                    <div class="absolute flex justify-center bottom-0 mb-3">
-                      <div class="flex bg-white px-4 py-1 space-x-5 rounded-lg overflow-hidden shadow">
-                        <p class="flex items-center font-medium text-gray-800">
-                          <FaDollarSign class="w-5 h-5 fill-current mr-2" />
+                    <div className="absolute flex justify-center bottom-0 mb-3">
+                      <div className="flex bg-white px-4 py-1 space-x-5 rounded-lg overflow-hidden shadow">
+                        <p className="flex items-center font-medium text-gray-800">
+                          <FaDollarSign className="w-5 h-5 fill-current mr-2" />
                           {product.price}
                         </p>
                       </div>
@@ -108,7 +108,9 @@ const ProductsDetails = ({ result }) => {
           </div>
         </div>
       ))}
-      <BookModal bookDetails={bookDetails} />
+      {
+        bookDetails && <BookModal bookDetails={bookDetails} />
+      }
     </div>
   );
 };
