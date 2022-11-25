@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaListAlt, FaDollarSign } from "react-icons/fa";
+import BookModal from "./BookModal";
 
 const ProductsDetails = ({ result }) => {
-  console.log(result);
+  const [bookDetails, setBookDetails] = useState(null);
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
       {result?.map((product) => (
@@ -83,15 +84,23 @@ const ProductsDetails = ({ result }) => {
 
                 <div className="flex justify-end">
                   <p className="inline-block font-semibold text-primary whitespace-nowrap leading-tight rounded-xl">
-                    {product.status === "Available" || product.status === "Advertised" ? (
-                      <label className="mt-3 ml-3 px-3 py-2 rounded-lg z-10 bg-blue-500 text-sm font-medium text-white select-none">
+                    {product.status === "Available" ||
+                    product.status === "Advertised" ? (
+                      <label
+                        htmlFor="my-modal-3"
+                        onClick={() => setBookDetails(product)}
+                        className="mt-3 ml-3 px-3 py-2 rounded-lg z-10 bg-blue-500 text-sm font-medium text-white select-none"
+                      >
                         Book Now
                       </label>
                     ) : (
-                        <span className="mt-3 ml-3 px-3 py-2 rounded-lg z-10 bg-gray-500 text-sm font-medium text-white select-none">
+                      <span className="mt-3 ml-3 px-3 py-2 rounded-lg z-10 bg-gray-500 text-sm font-medium text-white select-none">
                         {product?.status}
                       </span>
                     )}
+                    {/* The button to open modal */}
+
+                    {/* Put this part before </body> tag */}
                   </p>
                 </div>
               </div>
@@ -99,6 +108,7 @@ const ProductsDetails = ({ result }) => {
           </div>
         </div>
       ))}
+      <BookModal bookDetails={bookDetails} />
     </div>
   );
 };
