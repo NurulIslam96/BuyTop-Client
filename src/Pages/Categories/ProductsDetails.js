@@ -10,36 +10,39 @@ const ProductsDetails = ({ result, refetch }) => {
   const [bookDetails, setBookDetails] = useState(null);
   const { user } = useContext(AuthContext);
   const [isSeller] = useSeller(user?.email);
-  const [isAdmin] = useAdmin(user?.email)
-  // console.log(isAdmin);
+  const [isAdmin] = useAdmin(user?.email);
 
   const handleReportItem = (product) => {
     const reportedItem = {
       productId: product._id,
-      productName:product.productName,
+      productName: product.productName,
       resalePrice: product.resalePrice,
       productPhoto: product.productPhoto,
-      userEmail: product.email
-    }
-    fetch(`${process.env.REACT_APP_api_link}/reported/${product._id}`,{
-      method: "POST",
-      headers:{
-        "content-type":"application/json",
-        authorization: `bearer ${localStorage.getItem("buytop-token")}`
+      userEmail: product.email,
+    };
+    fetch(`${process.env.REACT_APP_api_link}/reported/${product._id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        authorization: `bearer ${localStorage.getItem("buytop-token")}`,
       },
-      body: JSON.stringify(reportedItem)
+      body: JSON.stringify(reportedItem),
     })
-    .then(res=>res.json())
-    .then(data=>{
-      if(data.acknowledged){
-        toast.success("Reported Successfully")
-      }
-      console.log(data);
-    })
-  }
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.upsertedCount > 0) {
+          toast.success("Reported Successfully");
+        } else {
+          toast.error("Already Reported");
+        }
+      });
+  };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+    <div
+      data-aos="zoom-in"
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
+    >
       {result?.map(
         (product) =>
           product?.status === "Available" && (
@@ -89,7 +92,7 @@ const ProductsDetails = ({ result, refetch }) => {
                   <h2 className="mt-2 text-gray-800">
                     <FaListAlt />
                     <span className="mt-2 xl:mt-0">
-                      {product.description.slice(0, 140) + "..."}
+                      {product.description.slice(0, 110) + "..."} <a></a>
                     </span>
                   </h2>
                   <div className="w-full flex justify-between gap-4 mt-4">
@@ -141,23 +144,33 @@ const ProductsDetails = ({ result, refetch }) => {
                     </div>
                     <div className="grid col-span-2 justify-end">
                       <h2 className="inline-block font-semibold text-primary whitespace-nowrap leading-tight rounded-xl">
-                        {!isSeller && !isAdmin ? (
-                          <div className="flex flex-col">
-                          <label
-                            htmlFor="booking-modal"
-                            onClick={() => setBookDetails(product)}
-                            className="mt-3 ml-3 px-3 py-2 rounded-lg z-10 bg-blue-500 text-sm font-medium text-white select-none"
-                          >
-                            Book Now
-                          </label>
-                          <label
-                          onClick={()=>handleReportItem(product)}
-                            className="mt-3 ml-3 px-3 py-2 rounded-lg z-10 bg-red-500 text-sm font-medium text-white select-none"
-                          >
-                            Report Item
-                          </label>
+                        {!isSeller && !isAdmin ? <>
+                          {
+                            product?.status === "Available" ?
+                            <div className="flex flex-col text-center items-center justify-center">
+                            <label
+                              htmlFor="booking-modal"
+                              onClick={() => setBookDetails(product)}
+                              className="mt-3 ml-3 w-24 py-2 rounded-lg z-10 bg-blue-500 text-sm font-medium text-white select-none"
+                            >
+                              Book Now
+                            </label>
+                            <label
+                              onClick={() => handleReportItem(product)}
+                              className="mt-3 ml-3 w-24 py-2 rounded-lg z-10 bg-red-500 text-sm font-medium text-white select-none"
+                            >
+                              Report Now
+                            </label>
                           </div>
-                        ) : (
+                          :
+                          <label
+                              onClick={() => handleReportItem(product)}
+                              className="mt-3 ml-3 w-24 py-2 rounded-lg z-10 bg-red-500 text-sm font-medium text-white select-none"
+                            >
+                              {product?.status}
+                            </label>
+                          }
+                        </> : (
                           <label
                             htmlFor="booking-modal"
                             className="mt-3 ml-3 px-3 py-2 rounded-lg z-10 bg-gray-500 text-sm font-medium text-white select-none"

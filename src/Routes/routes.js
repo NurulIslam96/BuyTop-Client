@@ -34,7 +34,8 @@ export const routes = createBrowserRouter([
             },
             {
                 path:'/category/:id',
-                element: <PrivateRoute><Products></Products></PrivateRoute>
+                element: <PrivateRoute><Products></Products></PrivateRoute>,
+                loader: ({params})=>fetch(`${process.env.REACT_APP_api_link}/category/${params.id}`)
             },
             {
                 path:'/dashboard',

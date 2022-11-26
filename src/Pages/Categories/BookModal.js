@@ -1,9 +1,12 @@
 import React, { useContext} from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const BookModal = ({ bookDetails, setBookDetails, refetch }) => {
+  console.log(bookDetails)
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate()
   const { productName, resalePrice, _id, productPhoto,category } = bookDetails;
   console.log(bookDetails);
   const handleSubmitBookForm = (e) => {
@@ -39,6 +42,7 @@ const BookModal = ({ bookDetails, setBookDetails, refetch }) => {
       .then((data) => {
         if (data.acknowledged) {
           handleUpdateStatus(_id);
+          navigate('/dashboard/myorders')
         }
       });
   };
