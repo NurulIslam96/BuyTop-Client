@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext} from "react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const BookModal = ({ bookDetails, setBookDetails, refetch }) => {
   const { user } = useContext(AuthContext);
-  const { productName, price, _id } = bookDetails;
+  const { productName, resalePrice, _id, productPhoto,category } = bookDetails;
   console.log(bookDetails);
   const handleSubmitBookForm = (e) => {
     e.preventDefault();
@@ -15,6 +15,7 @@ const BookModal = ({ bookDetails, setBookDetails, refetch }) => {
     const email = form.email.value;
     const phone = form.phone.value;
     const location = form.location.value;
+    const productId = _id;
     const myBookings = {
       productName,
       price,
@@ -22,6 +23,9 @@ const BookModal = ({ bookDetails, setBookDetails, refetch }) => {
       email,
       phone,
       location,
+      productId,
+      productPhoto,
+      category
     };
     fetch(`${process.env.REACT_APP_api_link}/mybooking`, {
       method: "POST",
@@ -36,7 +40,6 @@ const BookModal = ({ bookDetails, setBookDetails, refetch }) => {
         if (data.acknowledged) {
           handleUpdateStatus(_id);
         }
-        console.log(data);
       });
   };
 
@@ -85,7 +88,7 @@ const BookModal = ({ bookDetails, setBookDetails, refetch }) => {
           </label>
           <input
             name="price"
-            defaultValue={price}
+            defaultValue={resalePrice}
             disabled
             className="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
           />

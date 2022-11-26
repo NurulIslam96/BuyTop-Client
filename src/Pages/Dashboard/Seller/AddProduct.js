@@ -139,17 +139,15 @@ const AddProduct = () => {
                   type="number"
                   {...register("purchaseYear", {
                     required: true,
-                    min: 2010,
+                    min: 1994,
                     max: 2023,
                   })}
                   placeholder="2010-2023"
                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                 />
-                {errors?.purchaseYear && (
-                  <p className="text-red-500">
-                    Please enter valid year between 2010-2023
-                  </p>
-                )}
+                <div>
+                {errors?.purchaseYear && console.log(errors)}
+                </div>
               </div>
             </div>
             <div className="w-full px-3 sm:w-1/2">

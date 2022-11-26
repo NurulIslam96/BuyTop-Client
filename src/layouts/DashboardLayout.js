@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
 import useAdmin from "../Hooks/useAdmin";
 import useSeller from "../Hooks/useSeller";
@@ -23,6 +23,13 @@ const DashboardLayout = () => {
         <div className="drawer-side h-[200px] text-xl font-semibold my-5 rounded-md">
           <label htmlFor="dashboard-drawer" className="drawer-overlay"></label>
           <ul className="menu p-4 w-80 text-gray-800 bg-gray-100">
+            {!isSeller && !isAdmin && (
+              <>
+                <li>
+                  <NavLink to={"/dashboard/myorders"}>My Orders</NavLink>
+                </li>
+              </>
+            )}
             {isSeller && (
               <>
                 <li className="rounded-md">
@@ -36,20 +43,10 @@ const DashboardLayout = () => {
             {isAdmin && (
               <>
                 <li>
-                  <Link to={"/dashboard/users"}>All Users</Link>
+                  <Link to={"/dashboard/allusers"}>All Users</Link>
                 </li>
                 <li>
-                  <Link to={"/dashboard/adddoctor"}>Add a Doctor</Link>
-                </li>
-                <li>
-                  <Link to={"/dashboard/managedoctors"}>Manage Doctors</Link>
-                </li>
-              </>
-            )}
-            {!isSeller && !isAdmin && (
-              <>
-                <li>
-                  <Link to={"/dashboard/myorders"}>My Orders</Link>
+                  <Link to={"/dashboard/reporteditems"}>Reported Items</Link>
                 </li>
               </>
             )}

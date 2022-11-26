@@ -24,7 +24,11 @@ const MyProducts = () => {
 
   const handleDeleteItem = (id) => {
     axios
-      .delete(`${process.env.REACT_APP_api_link}/myproducts/${id}`)
+      .delete(`${process.env.REACT_APP_api_link}/myproducts/${id}`,{
+        headers: {
+          authorization: `bearer ${localStorage.getItem("buytop-token")}`,
+        },
+      })
       .then(() => {
         toast.success("Deleted Successfully");
         refetch();
@@ -32,7 +36,7 @@ const MyProducts = () => {
   };
 
   const handleAdvertise = (id) => {
-    fetch(`${process.env.REACT_APP_api_link}/advertise/${id}`, {
+    fetch(`${process.env.REACT_APP_api_link}/addAdv/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
@@ -113,7 +117,7 @@ const MyProducts = () => {
                   </div>
                 </td>
                 <td>
-                  ${product.price}
+                  ${product.resalePrice}
                   <br />
                   <span className="badge badge-ghost badge-sm">
                     {product.category}
