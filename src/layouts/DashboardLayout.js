@@ -14,7 +14,7 @@ const DashboardLayout = () => {
         <div className="drawer-content">
           <Outlet></Outlet>
         </div>
-        <div className="drawer-side md:h-96 font-semibold md:my-5 my-0 md:rounded-md">
+        <div className="drawer-side lg:h-96 font-semibold lg:my-5 my-0 lg:rounded-md">
           <label htmlFor="dashboard-drawer" className="drawer-overlay"></label>
           <DashboardMenu></DashboardMenu>
         </div>

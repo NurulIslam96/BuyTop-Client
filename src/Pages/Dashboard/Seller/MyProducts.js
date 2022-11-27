@@ -158,7 +158,7 @@ const MyProducts = () => {
                       </button>
                     )}
                     {product?.status === "Booked" && (
-                      <button className="btn btn-primary text-white btn-xs my-1">
+                      <button className="btn btn-warning text-white btn-xs my-1">
                         Booked
                       </button>
                     )}

@@ -16,7 +16,11 @@ const Products = () => {
     queryKey: ["category"],
     queryFn: async () => {
       const res = await fetch(
-        `${process.env.REACT_APP_api_link}/category/${params.id}`
+        `${process.env.REACT_APP_api_link}/category/${params.id}`,{
+          headers:{
+            authorization: `bearer ${localStorage.getItem("buytop-token")}`
+          }
+        }
       );
       const data = await res.json();
       return data;
