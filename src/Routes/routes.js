@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Main from "../layouts/Main";
+import Blog from "../Pages/Blog/Blog";
 import Products from "../Pages/Categories/Products";
 import AllBuyers from "../Pages/Dashboard/Admin/AllBuyers";
 import AllSellers from "../Pages/Dashboard/Admin/AllSellers";
@@ -43,6 +44,10 @@ export const routes = createBrowserRouter([
                 loader: ({params})=>fetch(`${process.env.REACT_APP_api_link}/category/${params.id}`)
             },
             {
+                path:'/blogs',
+                element:<Blog></Blog>
+            },
+            {
                 path:'/dashboard',
                 element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
                 children:[
@@ -78,7 +83,7 @@ export const routes = createBrowserRouter([
                         path:'/dashboard/payment/:id',
                         element:<BuyerRoute><Payment></Payment></BuyerRoute>,
                         loader: ({params})=>fetch(`${process.env.REACT_APP_api_link}/payment/${params.id}`)
-                    }
+                    },
                 ]
             }
         ]

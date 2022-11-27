@@ -30,6 +30,26 @@ const Navbar = () => {
     <div className="shadow-md bg-slate-800 text-white">
       <div className="px-4 py-5 container mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
         <div className="relative flex items-center justify-between">
+          <label
+            htmlFor="dashboard-drawer"
+            tabIndex={3}
+            className="btn btn-ghost lg:hidden px-0"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h8m-8 6h16"
+              />
+            </svg>
+          </label>
           <NavLink
             to="/"
             aria-label="BuyTop"
@@ -144,7 +164,12 @@ const Navbar = () => {
                     <span className="hover:text-yellow-500">Settings</span>
                   </li>
                   <li>
-                    <span className="hover:text-yellow-500" onClick={handleSignOut}>Logout</span>
+                    <span
+                      className="hover:text-yellow-500"
+                      onClick={handleSignOut}
+                    >
+                      Logout
+                    </span>
                   </li>
                 </ul>
               </div>

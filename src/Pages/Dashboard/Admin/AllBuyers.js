@@ -65,27 +65,23 @@ const AllBuyers = () => {
         {allBuyers?.length > 0 ? (
           <table className="table w-full">
             <thead>
-              <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
-                <th>User Name</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Action</th>
+              <tr className="text-center">
+                <th className="bg-slate-800 text-white">No.</th>
+                <th className="bg-slate-800 text-white">User Name</th>
+                <th className="bg-slate-800 text-white">Email</th>
+                <th className="bg-slate-800 text-white">Role</th>
+                <th className="bg-slate-800 text-white">Action</th>
               </tr>
             </thead>
-            <tbody>
-              {allBuyers?.map((user) => (
+            <tbody className="text-center">
+              {allBuyers?.map((user,i) => (
                 <tr key={user._id} user={user}>
-                  <th>
+                  <th className="bg-stone-200">
                     <label>
-                      <input type="checkbox" className="checkbox" />
+                      {i+1}
                     </label>
                   </th>
-                  <td>
+                  <td className="bg-stone-200">
                     <div className="flex items-center space-x-3">
                       <img
                         src={user?.photo}
@@ -94,21 +90,15 @@ const AllBuyers = () => {
                       />
                       <div>
                         <div className="font-bold">{user.name}</div>
-                        <div className="text-sm opacity-50">
-                          {user.location}
-                        </div>
                       </div>
                     </div>
                   </td>
-                  <td>
+                  <td className="bg-stone-200 font-semibold">
                     {user?.email}
                     <br />
-                    <span className="badge badge-ghost badge-sm">
-                      {user.verified ? "Verified" : "Not Verified"}
-                    </span>
                   </td>
-                  <td>{user.role}</td>
-                  <th>
+                  <td className="bg-stone-200 font-semibold">{user.role}</td>
+                  <th className="bg-stone-200">
                     <button
                       onClick={() => handleDeleteUser(user._id)}
                       className="btn btn-error text-white btn-xs my-1"
@@ -120,12 +110,12 @@ const AllBuyers = () => {
               ))}
             </tbody>
             <tfoot>
-              <tr>
-                <th></th>
-                <th>Product Name</th>
-                <th>Price</th>
-                <th>Status</th>
-                <th>Action</th>
+              <tr className="text-center">
+                <th className="bg-slate-800 text-white">No.</th>
+                <th className="bg-slate-800 text-white">Product Name</th>
+                <th className="bg-slate-800 text-white">Price</th>
+                <th className="bg-slate-800 text-white">Status</th>
+                <th className="bg-slate-800 text-white">Action</th>
               </tr>
             </tfoot>
           </table>

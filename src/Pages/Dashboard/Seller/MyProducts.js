@@ -96,30 +96,26 @@ const MyProducts = () => {
       {myProducts?.length > 0 ? (
         <table className="table w-full">
           <thead>
-            <tr>
-              <th>
-                <label>
-                  <input type="checkbox" className="checkbox" />
-                </label>
-              </th>
-              <th>Product Name</th>
-              <th>Price</th>
-              <th>Status</th>
-              <th></th>
+            <tr className="text-center">
+              <th className="bg-slate-800 text-white">No.</th>
+              <th className="bg-slate-800 text-white">Product Name</th>
+              <th className="bg-slate-800 text-white">Price</th>
+              <th className="bg-slate-800 text-white">Status</th>
+              <th className="bg-slate-800 text-white">Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="text-center">
             {myProducts &&
-              myProducts.map((product) => (
+              myProducts.map((product,index) => (
                 <tr key={product._id} product={product}>
-                  <th>
+                  <th className="bg-stone-200">
                     <label>
-                      <input type="checkbox" className="checkbox" />
+                      {index+1}
                     </label>
                   </th>
-                  <td>
+                  <td className="bg-stone-200">
                     <div className="flex items-center space-x-3">
-                      <div className="">
+                      <div>
                         <div className="w-12 h-12">
                           <img
                             src={product?.productPhoto}
@@ -129,21 +125,22 @@ const MyProducts = () => {
                       </div>
                       <div>
                         <div className="font-bold">{product.productName}</div>
-                        <div className="text-sm opacity-50">
+                        <div className="text-sm opacity-50 text-start">
                           {product.location}
                         </div>
                       </div>
                     </div>
                   </td>
-                  <td>
+                  <td className="bg-stone-200">
                     ${product.resalePrice}
                     <br />
                     <span className="badge badge-ghost badge-sm">
                       {product.category}
                     </span>
                   </td>
-                  <td>{product.status}</td>
-                  <th className="flex flex-col">
+                  <td className="bg-stone-200">{product.status}</td>
+                  <th className=" bg-stone-200">
+                    <div className="flex flex-col">
                     {product?.status === "Available" && (
                       <button
                         onClick={() => handleAdvertise(product._id)}
@@ -166,11 +163,9 @@ const MyProducts = () => {
                       </button>
                     )}
                     {product?.status === "Paid" ? (
-                      <td className="text-center px-0">
-                        <button className="btn w-full btn-success text-white btn-xs">
+                      <button className="btn btn-success text-white btn-xs my-1">
                         Sold
                       </button>
-                      </td>
                     ) : (
                       <button
                         onClick={() => handleDeleteItem(product._id)}
@@ -179,17 +174,18 @@ const MyProducts = () => {
                         Delete
                       </button>
                     )}
+                    </div>
                   </th>
                 </tr>
               ))}
           </tbody>
           <tfoot>
-            <tr>
-              <th></th>
-              <th>Product Name</th>
-              <th>Price</th>
-              <th>Status</th>
-              <th></th>
+            <tr className="text-center">
+              <th className="bg-slate-800 text-white">No.</th>
+              <th className="bg-slate-800 text-white">Product Name</th>
+              <th className="bg-slate-800 text-white">Price</th>
+              <th className="bg-slate-800 text-white">Status</th>
+              <th className="bg-slate-800 text-white">Action</th>
             </tr>
           </tfoot>
         </table>

@@ -79,28 +79,24 @@ const ReportedItems = () => {
         {reportedItems?.length > 0 ? (
           <table className="table w-full">
             <thead>
-              <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
-                <th>Product Name</th>
-                <th>Price</th>
-                <th>Status</th>
-                <th>Action</th>
+              <tr className="text-center">
+                <th className="bg-slate-800 text-white">No.</th>
+                <th className="bg-slate-800 text-white">Product Name</th>
+                <th className="bg-slate-800 text-white">Price</th>
+                <th className="bg-slate-800 text-white">Status</th>
+                <th className="bg-slate-800 text-white">Action</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="text-center">
               {reportedItems &&
-                reportedItems.map((product) => (
+                reportedItems.map((product,i) => (
                   <tr key={product._id} product={product}>
-                    <th>
+                    <th className="bg-stone-200">
                       <label>
-                        <input type="checkbox" className="checkbox" />
+                        {i+1}
                       </label>
                     </th>
-                    <td>
+                    <td className="bg-stone-200">
                       <div className="flex items-center space-x-3">
                         <div className="">
                           <div className="w-12 h-12">
@@ -115,15 +111,15 @@ const ReportedItems = () => {
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td  className="bg-stone-200">
                       ${product?.resalePrice}
                       <br />
                       <span className="badge badge-ghost badge-sm">
                         {product?.userEmail}
                       </span>
                     </td>
-                    <td>Reported</td>
-                    <th>
+                    <td className="bg-stone-200">Reported</td>
+                    <th className="bg-stone-200">
                       <button
                         onClick={() => handleDeleteItem(product)}
                         className="btn btn-error text-white btn-xs my-1"
@@ -135,12 +131,12 @@ const ReportedItems = () => {
                 ))}
             </tbody>
             <tfoot>
-              <tr>
-                <th></th>
-                <th>Product Name</th>
-                <th>Price</th>
-                <th>Status</th>
-                <th>Action</th>
+              <tr className="text-center">
+                <th className="bg-slate-800 text-white">No.</th>
+                <th className="bg-slate-800 text-white">Product Name</th>
+                <th className="bg-slate-800 text-white">Price</th>
+                <th className="bg-slate-800 text-white">Status</th>
+                <th className="bg-slate-800 text-white">Action</th>
               </tr>
             </tfoot>
           </table>

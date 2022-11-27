@@ -12,8 +12,8 @@ const Advertisement = () => {
   return (
     <>
       {advertisement.length > 0 && (
-        <div>
-          <div className="container flex justify-center mx-auto pt-16">
+        <div className="mx-5">
+          <div className="flex justify-center pt-16">
             <div>
               <p className="text-gray-500 text-lg text-center font-normal pb-3">
                 TODAY'S BEST PICK
@@ -23,8 +23,8 @@ const Advertisement = () => {
               </h1>
             </div>
           </div>
-          <div className="w-full bg-gray-200 rounded-xl px-10 py-10">
-            <div className="grid lg:grid-cols-3 md:grid-cols-2 lg:gap-0 gap-2 grid-cols-1 md:mx-0 mx-3">
+          <div className="w-full bg-gray-200 rounded-xl md:px-10 md:py-10 px-2 py-2">
+            <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-5 grid-cols-1 md:mx-0">
               {advertisement?.map((adv) => (
                 <AdvertisementCard adv={adv} key={adv._id}></AdvertisementCard>
               ))}

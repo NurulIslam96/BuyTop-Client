@@ -71,54 +71,48 @@ const MyOrders = () => {
       {myOrders?.length > 0 ? (
         <table className="table w-full">
           <thead>
-            <tr>
-              <th>
-                <label>
-                  <input type="checkbox" className="checkbox" />
-                </label>
-              </th>
-              <th>Product Name</th>
-              <th>Price</th>
-              <th>Status</th>
-              <th>Action</th>
+            <tr className="text-center">
+              <th className="bg-slate-800 text-white">No.</th>
+              <th className="bg-slate-800 text-white">Product Name</th>
+              <th className="bg-slate-800 text-white">Price</th>
+              <th className="bg-slate-800 text-white">Status</th>
+              <th className="bg-slate-800 text-white">Action</th>
             </tr>
           </thead>
-          <tbody>
-            {myOrders?.map((product) => (
+          <tbody className="text-center">
+            {myOrders?.map((product, i) => (
               <tr key={product._id} product={product}>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
+                <th className="bg-stone-200">
+                  <label>{i + 1}</label>
                 </th>
-                <td>
+                <td className="bg-stone-200">
                   <div className="flex items-center space-x-3">
                     <div className="">
                       <div className="w-12 h-12">
                         <img
                           src={product?.productPhoto}
-                          alt="Avatar Tailwind CSS Component"
+                          alt=""
                         />
                       </div>
                     </div>
                     <div>
                       <div className="font-bold">{product.productName}</div>
-                      <div className="text-sm opacity-50">
+                      <div className="text-sm opacity-50 text-start">
                         {product.location}
                       </div>
                     </div>
                   </div>
                 </td>
-                <td>
+                <td className="bg-stone-200">
                   ${product.price}
                   <br />
                   <span className="badge badge-ghost badge-sm">
                     {product.category}
                   </span>
                 </td>
-                <td>{product.status}</td>
+                <td className="bg-stone-200">{product.status}</td>
                 {product?.status !== "Paid" ? (
-                  <th className="flex flex-col">
+                  <th className="flex flex-col bg-stone-200">
                     <Link
                       to={`/dashboard/payment/${product._id}`}
                       className="btn btn-primary text-white btn-xs my-1"
@@ -134,7 +128,7 @@ const MyOrders = () => {
                   </th>
                 ) : (
                   <>
-                    <td className="text-center">
+                    <td className="text-center bg-stone-200">
                       <button className="btn w-full btn-success text-white btn-xs">
                         Paid
                       </button>
@@ -145,12 +139,12 @@ const MyOrders = () => {
             ))}
           </tbody>
           <tfoot>
-            <tr>
-              <th></th>
-              <th>Product Name</th>
-              <th>Price</th>
-              <th>Status</th>
-              <th>Action</th>
+            <tr className="text-center">
+              <th className="bg-slate-800 text-white">No.</th>
+              <th className="bg-slate-800 text-white">Product Name</th>
+              <th className="bg-slate-800 text-white">Price</th>
+              <th className="bg-slate-800 text-white">Status</th>
+              <th className="bg-slate-800 text-white">Action</th>
             </tr>
           </tfoot>
         </table>
