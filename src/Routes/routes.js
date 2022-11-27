@@ -10,6 +10,7 @@ import AddProduct from "../Pages/Dashboard/Seller/AddProduct";
 import MyProducts from "../Pages/Dashboard/Seller/MyProducts";
 import Payment from "../Pages/Dashboard/Seller/Payment";
 import WelcomePage from "../Pages/Dashboard/WelcomePage/WelcomePage";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login/Login";
 import Signup from "../Pages/Signup/Signup";
@@ -22,6 +23,7 @@ export const routes = createBrowserRouter([
     {
         path: '/',
         element: <Main></Main>,
+        errorElement:<ErrorPage></ErrorPage>,
         children:[
             {
                 path: '/',

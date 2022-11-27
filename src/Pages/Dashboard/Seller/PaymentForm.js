@@ -1,6 +1,9 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
+import SkeletonLoader from "../../../components/SkeletonLoader";
+import Spinner from "../../../components/Spinner";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
 const PaymentForm = ({ productInfo }) => {
@@ -21,10 +24,9 @@ const PaymentForm = ({ productInfo }) => {
   const { user } = useContext(AuthContext);
   const stripe = useStripe();
   const elements = useElements();
-  //   console.log(productInfo);
 
   useEffect(() => {
-    fetch("http://localhost:5000/create-payment-intent", {
+    fetch(`${process.env.REACT_APP_api_link}/create-payment-intent`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -100,6 +102,10 @@ const PaymentForm = ({ productInfo }) => {
     setPayProcess(false);
   };
 
+  if(payProcess){
+    return <SkeletonLoader></SkeletonLoader>
+  }
+
   return (
     <div className="py-4 px-4 md:px-4 flex justify-center items-center 2xl:mx-auto 2xl:container">
       <div className="flex flex-col justify-start items-start w-full space-y-9">
@@ -125,9 +131,12 @@ const PaymentForm = ({ productInfo }) => {
               <img src={productPhoto} alt="" />
             </div>
             {transId && (
+              <>
               <h2 className="text-black py-4 px-2 font-semibold rounded-md bg-yellow-500">
                 Your Transaction ID: {transId}
               </h2>
+              <Link to={'/dashboard/myorders'} className="btn btn-outline btn-warning my-5 w-full">Go Back To My Orders</Link>
+              </>
             )}
           </div>
           <form
@@ -190,15 +199,28 @@ const PaymentForm = ({ productInfo }) => {
               />
             </div>
             {<p className="text-red-500 mt-2">{error}</p>}
-            <button
-              type="submit"
-              disabled={!stripe || !clientSecret || payProcess}
-              className="mt-8 border border-gray-300 bg-gray-900 text-white hover:bg-white hover:border-black hover:text-black flex justify-center items-center py-4 rounded w-full"
-            >
-              <div>
-                <p className="text-base leading-4">Pay ${price}</p>
-              </div>
-            </button>
+            {!transId ? (
+              <button
+                type="submit"
+                disabled={!stripe || !clientSecret || payProcess}
+                className="mt-8 border border-gray-300 bg-gray-900 text-white hover:bg-white hover:border-black hover:text-black flex justify-center items-center py-4 rounded w-full"
+              >
+                <div>
+                  <p className="text-base leading-4">Pay ${price}</p>
+                </div>
+              </button>
+            ) : (
+              <>
+                <button
+                  disabled
+                  className="mt-8 border border-gray-300 text-white bg-gray-500 flex justify-center items-center py-4 rounded w-full"
+                >
+                  <div>
+                    <p className="text-base leading-4">Paid</p>
+                  </div>
+                </button>
+              </>
+            )}
           </form>
         </div>
       </div>

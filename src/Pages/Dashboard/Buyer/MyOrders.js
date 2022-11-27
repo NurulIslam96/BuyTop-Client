@@ -26,7 +26,7 @@ const MyOrders = () => {
       return data;
     },
   });
-  
+
   if (isLoading) {
     return <Spinner></Spinner>;
   }
@@ -48,14 +48,15 @@ const MyOrders = () => {
         }
       });
   };
-  console.log(myOrders);
 
   return (
     <div className="overflow-x-auto w-full px-2">
       <div className="py-6 px-4 md:px-6 2xl:px-0 2xl:mx-auto 2xl:container flex justify-center items-center">
         <div className="flex justify-between items-center w-full">
           <div className="flex flex-col justify-start items-start">
-            <p className="text-sm leading-none text-gray-600">home - My Orders</p>
+            <p className="text-sm leading-none text-gray-600">
+              home - My Orders
+            </p>
             <div className="mt-2 flex flex-row justify-end items-center space-x-3">
               <p className="text-2xl font-semibold leading-normal text-gray-800 ">
                 My Orders
@@ -116,17 +117,30 @@ const MyOrders = () => {
                   </span>
                 </td>
                 <td>{product.status}</td>
-                <th className="flex flex-col">
-                  <Link to={`/dashboard/payment/${product._id}`} className="btn btn-primary text-white btn-xs my-1">
-                    Pay
-                  </Link>
-                  <button
-                    onClick={() => handleCancelBooking(product.productId)}
-                    className="btn btn-error text-white btn-xs my-1"
-                  >
-                    Cancel Order
-                  </button>
-                </th>
+                {product?.status !== "Paid" ? (
+                  <th className="flex flex-col">
+                    <Link
+                      to={`/dashboard/payment/${product._id}`}
+                      className="btn btn-primary text-white btn-xs my-1"
+                    >
+                      Pay
+                    </Link>
+                    <button
+                      onClick={() => handleCancelBooking(product.productId)}
+                      className="btn btn-error text-white btn-xs my-1"
+                    >
+                      Cancel Order
+                    </button>
+                  </th>
+                ) : (
+                  <>
+                    <td className="text-center">
+                      <button className="btn w-full btn-success text-white btn-xs">
+                        Paid
+                      </button>
+                    </td>
+                  </>
+                )}
               </tr>
             ))}
           </tbody>
@@ -150,7 +164,7 @@ const MyOrders = () => {
                   <span className="font-bold text-lg">Go back to Home</span>
                 </div>
                 <Link
-                  to={'/'}
+                  to={"/"}
                   className="px-5 mt-4 lg:mt-0 py-3 rounded-md border block dark:bg-gray-50 dark:text-gray-900 dark:border-gray-400"
                 >
                   HomePage

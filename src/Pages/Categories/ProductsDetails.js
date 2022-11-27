@@ -45,7 +45,7 @@ const ProductsDetails = ({ result, refetch }) => {
     >
       {result?.map(
         (product) =>
-          product?.status !== "Sold" && (
+          product?.status !== "Paid" && (
             <div
               key={product._id}
               product={product}
@@ -146,7 +146,7 @@ const ProductsDetails = ({ result, refetch }) => {
                       <h2 className="inline-block w-full whitespace-nowrap leading-tight rounded-xl">
                         {!isSeller && !isAdmin ? (
                           <>
-                            {product?.status === "Available" ? (
+                            {product?.status === "Available" || product?.status === "Advertised" ? (
                               <div className="flex text-center w-full">
                                 <label
                                   htmlFor="booking-modal"
