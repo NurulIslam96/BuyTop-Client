@@ -26,7 +26,7 @@ const MyOrders = () => {
       return data;
     },
   });
-  console.log(myOrders);
+  
   if (isLoading) {
     return <Spinner></Spinner>;
   }
@@ -48,6 +48,7 @@ const MyOrders = () => {
         }
       });
   };
+  console.log(myOrders);
 
   return (
     <div className="overflow-x-auto w-full px-2">
@@ -78,7 +79,7 @@ const MyOrders = () => {
               <th>Product Name</th>
               <th>Price</th>
               <th>Status</th>
-              <th></th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -114,11 +115,11 @@ const MyOrders = () => {
                     {product.category}
                   </span>
                 </td>
-                <td>Booked</td>
+                <td>{product.status}</td>
                 <th className="flex flex-col">
-                  <button className="btn btn-primary text-white btn-xs my-1">
-                    Advertise
-                  </button>
+                  <Link to={`/dashboard/payment/${product._id}`} className="btn btn-primary text-white btn-xs my-1">
+                    Pay
+                  </Link>
                   <button
                     onClick={() => handleCancelBooking(product.productId)}
                     className="btn btn-error text-white btn-xs my-1"
@@ -135,7 +136,7 @@ const MyOrders = () => {
               <th>Product Name</th>
               <th>Price</th>
               <th>Status</th>
-              <th></th>
+              <th>Action</th>
             </tr>
           </tfoot>
         </table>

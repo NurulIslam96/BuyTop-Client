@@ -3,6 +3,7 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
 import useAdmin from "../Hooks/useAdmin";
 import useSeller from "../Hooks/useSeller";
+import WelcomePage from "../Pages/Dashboard/WelcomePage/WelcomePage";
 
 const DashboardLayout = () => {
   const { user } = useContext(AuthContext);
@@ -43,7 +44,10 @@ const DashboardLayout = () => {
             {isAdmin && (
               <>
                 <li>
-                  <Link to={"/dashboard/allusers"}>All Users</Link>
+                  <Link to={"/dashboard/allsellers"}>All Sellers</Link>
+                </li>
+                <li>
+                  <Link to={"/dashboard/allbuyers"}>All Buyers</Link>
                 </li>
                 <li>
                   <Link to={"/dashboard/reporteditems"}>Reported Items</Link>

@@ -2,11 +2,14 @@ import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Main from "../layouts/Main";
 import Products from "../Pages/Categories/Products";
-import Allusers from "../Pages/Dashboard/Admin/Allusers";
+import AllBuyers from "../Pages/Dashboard/Admin/AllBuyers";
+import AllSellers from "../Pages/Dashboard/Admin/AllSellers";
 import ReportedItems from "../Pages/Dashboard/Admin/ReportedItems";
 import MyOrders from "../Pages/Dashboard/Buyer/MyOrders";
 import AddProduct from "../Pages/Dashboard/Seller/AddProduct";
 import MyProducts from "../Pages/Dashboard/Seller/MyProducts";
+import Payment from "../Pages/Dashboard/Seller/Payment";
+import WelcomePage from "../Pages/Dashboard/WelcomePage/WelcomePage";
 import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login/Login";
 import Signup from "../Pages/Signup/Signup";
@@ -46,6 +49,10 @@ export const routes = createBrowserRouter([
                         element: <SellerRoute><AddProduct></AddProduct></SellerRoute>
                     },
                     {
+                        path:'/dashboard',
+                        element: <PrivateRoute><WelcomePage></WelcomePage></PrivateRoute>
+                    },
+                    {
                         path:'/dashboard/myproducts',
                         element: <SellerRoute><MyProducts></MyProducts></SellerRoute>
                     },
@@ -54,12 +61,21 @@ export const routes = createBrowserRouter([
                         element: <BuyerRoute><MyOrders></MyOrders></BuyerRoute>
                     },
                     {
-                        path:'/dashboard/allusers',
-                        element: <AdminRoute><Allusers></Allusers></AdminRoute>
+                        path:'/dashboard/allsellers',
+                        element: <AdminRoute><AllSellers></AllSellers></AdminRoute>
+                    },
+                    {
+                        path:'/dashboard/allbuyers',
+                        element: <AdminRoute><AllBuyers></AllBuyers></AdminRoute>
                     },
                     {
                         path:'/dashboard/reporteditems',
                         element: <AdminRoute><ReportedItems></ReportedItems></AdminRoute>
+                    },
+                    {
+                        path:'/dashboard/payment/:id',
+                        element:<BuyerRoute><Payment></Payment></BuyerRoute>,
+                        loader: ({params})=>fetch(`${process.env.REACT_APP_api_link}/payment/${params.id}`)
                     }
                 ]
             }

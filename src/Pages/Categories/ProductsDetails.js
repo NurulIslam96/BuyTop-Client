@@ -45,7 +45,7 @@ const ProductsDetails = ({ result, refetch }) => {
     >
       {result?.map(
         (product) =>
-          product?.status === "Available" && (
+          product?.status !== "Sold" && (
             <div
               key={product._id}
               product={product}
@@ -121,8 +121,8 @@ const ProductsDetails = ({ result, refetch }) => {
                       </span>
                     </h2>
                   </div>
-                  <div className="grid grid-cols-6 mt-8">
-                    <div className="grid col-span-4 grid-flow-col items-center">
+                  <div className="grid grid-cols-2 mt-8 items-center">
+                    <div className="grid col-span-2">
                       <div className="flex items-center">
                         <div className="relative grid col-span-1">
                           <img
@@ -131,7 +131,7 @@ const ProductsDetails = ({ result, refetch }) => {
                             alt=""
                           />
                         </div>
-                        <h2 className="ml-2 text-gray-800 line-clamp-1">
+                        <h2 className="ml-2 text-gray-800">
                           {product?.userName}
                         </h2>
                         {product?.isVerified && (
@@ -142,41 +142,40 @@ const ProductsDetails = ({ result, refetch }) => {
                         )}
                       </div>
                     </div>
-                    <div className="grid col-span-2 justify-end">
-                      <h2 className="inline-block font-semibold text-primary whitespace-nowrap leading-tight rounded-xl">
-                        {!isSeller && !isAdmin ? <>
-                          {
-                            product?.status === "Available" ?
-                            <div className="flex flex-col text-center items-center justify-center">
-                            <label
-                              htmlFor="booking-modal"
-                              onClick={() => setBookDetails(product)}
-                              className="mt-3 ml-3 w-24 py-2 rounded-lg z-10 bg-blue-500 text-sm font-medium text-white select-none"
-                            >
-                              Book Now
-                            </label>
-                            <label
-                              onClick={() => handleReportItem(product)}
-                              className="mt-3 ml-3 w-24 py-2 rounded-lg z-10 bg-red-500 text-sm font-medium text-white select-none"
-                            >
-                              Report Now
+                    <div className="grid col-span-2">
+                      <h2 className="inline-block w-full whitespace-nowrap leading-tight rounded-xl">
+                        {!isSeller && !isAdmin ? (
+                          <>
+                            {product?.status === "Available" ? (
+                              <div className="flex text-center w-full">
+                                <label
+                                  htmlFor="booking-modal"
+                                  onClick={() => setBookDetails(product)}
+                                  className="mt-3 w-1/2 py-2 rounded-lg z-10 bg-blue-500 text-sm font-medium text-white select-none"
+                                >
+                                  Book Now
+                                </label>
+                                <label
+                                  onClick={() => handleReportItem(product)}
+                                  className="mt-3 ml-3 w-1/2 py-2 rounded-lg z-10 bg-red-500 text-sm font-medium text-white select-none"
+                                >
+                                  Report Now
+                                </label>
+                              </div>
+                            ) : (
+                              <div className="flex flex-col text-center items-center justify-center">
+                                <label className="mt-3 w-full py-2 rounded-lg z-10 bg-green-500 text-sm font-medium text-white select-none">
+                                  {product?.status}
+                                </label>
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <div className="flex flex-col text-center items-center justify-center">
+                            <label className="mt-3 w-full py-2 rounded-lg z-10 bg-slate-500 text-sm font-medium text-white select-none">
+                              Only for Buyers
                             </label>
                           </div>
-                          :
-                          <label
-                              onClick={() => handleReportItem(product)}
-                              className="mt-3 ml-3 w-24 py-2 rounded-lg z-10 bg-red-500 text-sm font-medium text-white select-none"
-                            >
-                              {product?.status}
-                            </label>
-                          }
-                        </> : (
-                          <label
-                            htmlFor="booking-modal"
-                            className="mt-3 ml-3 px-3 py-2 rounded-lg z-10 bg-gray-500 text-sm font-medium text-white select-none"
-                          >
-                            Only for Sellers
-                          </label>
                         )}
                       </h2>
                     </div>

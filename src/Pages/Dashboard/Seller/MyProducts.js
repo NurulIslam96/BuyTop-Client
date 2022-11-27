@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useContext } from "react";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
 const MyProducts = () => {
@@ -75,7 +76,24 @@ const MyProducts = () => {
 
   return (
     <div className="overflow-x-auto w-full mt-5 px-2">
-      <table className="table w-full">
+      <div className="py-6 px-4 md:px-6 2xl:px-0 2xl:mx-auto 2xl:container flex justify-center items-center">
+        <div className="flex justify-between items-center w-full">
+          <div className="flex flex-col justify-start items-start">
+            <p className="text-sm leading-none text-gray-600">home - My Products</p>
+            <div className="mt-2 flex flex-row justify-end items-center space-x-3">
+              <p className="text-2xl font-semibold leading-normal text-gray-800 ">
+                My Products
+              </p>
+              <p className="text-base leading-4 text-gray-600 mt-2">
+                ({myProducts?.length} items)
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {
+        myProducts?.length > 0 ?
+        <table className="table w-full">
         <thead>
           <tr>
             <th>
@@ -172,6 +190,26 @@ const MyProducts = () => {
           </tr>
         </tfoot>
       </table>
+        :
+        <>
+        <div className="p-6 py-8 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-md text-white">
+            <div className="container mx-auto">
+              <div className="flex flex-col lg:flex-row items-center justify-between">
+                <div className="space-x-2 text-center py-2 lg:py-0">
+                  <span>You Haven't Added Any Products</span>
+                  <span className="font-bold text-lg">Go to Add product</span>
+                </div>
+                <Link
+                  to={'/dashboard/addproduct'}
+                  className="px-5 mt-4 lg:mt-0 py-3 rounded-md border block dark:bg-gray-50 dark:text-gray-900 dark:border-gray-400"
+                >
+                  Add Product
+                </Link>
+              </div>
+            </div>
+          </div>
+        </>
+      }
     </div>
   );
 };

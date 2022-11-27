@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -7,9 +7,10 @@ import { AuthContext } from "../../contexts/AuthProvider";
 
 const Signup = () => {
   const { register, handleSubmit, reset } = useForm();
+  const [error, setError] = useState("");
   const { createUser, googleSignIn, updateUser } = useContext(AuthContext);
-  const location = useLocation()
-  const navigate = useNavigate()
+  const location = useLocation();
+  const navigate = useNavigate();
   const from = location?.state?.from?.path || "/";
 
   const handleSignUp = (data) => {
@@ -34,7 +35,8 @@ const Signup = () => {
             handleUpdateUserProfile(data.name, imageData.data.display_url);
             setUserToken(newProfile, role);
             toast.success("Registered Succesfully");
-            navigate(from, {replace: true})
+            setError("");
+            navigate(from, { replace: true });
           })
           .catch((err) => console.log(err));
         reset();
@@ -57,7 +59,7 @@ const Signup = () => {
       const role = "Seller";
       setUserToken(result.user, role);
     });
-    navigate(from, {replace: true})
+    navigate(from, { replace: true });
   };
   return (
     <div className="container mx-auto">
@@ -116,11 +118,12 @@ const Signup = () => {
                     Select a role
                   </label>
                   <select
+                    defaultValue={"Buyer"}
                     className="select select-info w-full px-4 py-3 rounded-md border border-gray-700 bg-gray-900 text-gray-100 focus:border-violet-400"
                     {...register("role", { required: true })}
                   >
-                    <option>Seller</option>
                     <option>Buyer</option>
+                    <option>Seller</option>
                   </select>
                 </div>
                 <div className="space-y-1 text-sm">
@@ -133,6 +136,7 @@ const Signup = () => {
                     {...register("image", { required: true })}
                   />
                 </div>
+                {error && <p className="px-3 text-sm text-red-600">{error}</p>}
                 <button
                   type="submit"
                   className="block w-full p-3 text-center rounded-sm text-white bg-blue-500"

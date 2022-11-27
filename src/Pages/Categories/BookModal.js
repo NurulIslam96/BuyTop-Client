@@ -1,14 +1,10 @@
 import React, { useContext} from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const BookModal = ({ bookDetails, setBookDetails, refetch }) => {
-  console.log(bookDetails)
   const { user } = useContext(AuthContext);
-  const navigate = useNavigate()
-  const { productName, resalePrice, _id, productPhoto,category } = bookDetails;
-  console.log(bookDetails);
+  const { productName, resalePrice, _id, productPhoto,category,status } = bookDetails;
   const handleSubmitBookForm = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -28,7 +24,8 @@ const BookModal = ({ bookDetails, setBookDetails, refetch }) => {
       location,
       productId,
       productPhoto,
-      category
+      category,
+      status
     };
     fetch(`${process.env.REACT_APP_api_link}/mybooking`, {
       method: "POST",
@@ -42,7 +39,7 @@ const BookModal = ({ bookDetails, setBookDetails, refetch }) => {
       .then((data) => {
         if (data.acknowledged) {
           handleUpdateStatus(_id);
-          navigate('/dashboard/myorders')
+          toast.success("Successfully Booked")
         }
       });
   };
@@ -59,7 +56,6 @@ const BookModal = ({ bookDetails, setBookDetails, refetch }) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.matchedCount > 0) {
-          toast.success("successfully Booked");
           setBookDetails(null);
           refetch()
         }
