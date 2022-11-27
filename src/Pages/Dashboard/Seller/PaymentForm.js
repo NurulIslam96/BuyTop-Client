@@ -2,8 +2,6 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
-import SkeletonLoader from "../../../components/SkeletonLoader";
-import Spinner from "../../../components/Spinner";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
 const PaymentForm = ({ productInfo }) => {
@@ -95,16 +93,12 @@ const PaymentForm = ({ productInfo }) => {
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
+          setPayProcess(false);
           setTransId(paymentIntent.id);
           toast.success("Payment Completed");
         });
     }
-    setPayProcess(false);
   };
-
-  if(payProcess){
-    return <SkeletonLoader></SkeletonLoader>
-  }
 
   return (
     <div className="py-4 px-4 md:px-4 flex justify-center items-center 2xl:mx-auto 2xl:container">
