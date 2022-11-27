@@ -1,55 +1,104 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
 const PaymentForm = ({ productInfo }) => {
-  const { productName, productPhoto, price, location } = productInfo;
-  const [error, setError] = useState("")
-  const [clientSecret, setClientSecret]= useState("")
+  const {
+    productName,
+    productPhoto,
+    price,
+    location,
+    email,
+    userName,
+    productId,
+    _id,
+  } = productInfo;
+  const [error, setError] = useState("");
+  const [payProcess, setPayProcess] = useState(false);
+  const [transId, setTransId] = useState("");
+  const [clientSecret, setClientSecret] = useState("");
   const { user } = useContext(AuthContext);
   const stripe = useStripe();
   const elements = useElements();
   //   console.log(productInfo);
 
-    useEffect(()=>{
-        fetch(`${process.env.REACT_APP_api_link}/create-payment-intent`,{
-            method:"POST",
-            headers: {
-                "content-type":"application/json",
-                authorization: `bearer ${localStorage.getItem("buytop-token")}`
-            },
-            body: JSON.stringify(price)
-        })
-        .then(res=>res.json())
-        .then(data=>{
-            setClientSecret(data.clientSecret)
-        })
-    },[price]);
+  useEffect(() => {
+    fetch("http://localhost:5000/create-payment-intent", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authorization: `bearer ${localStorage.getItem("buytop-token")}`,
+      },
+      body: JSON.stringify({ price }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setClientSecret(data.clientSecret);
+      });
+  }, [price]);
 
   const handlePayment = async (e) => {
     e.preventDefault();
     if (!stripe || !elements) {
       return;
     }
-    const card= elements.getElement(CardElement);
-    if(card === null){
-        return;
+    const card = elements.getElement(CardElement);
+    if (card === null) {
+      return;
     }
 
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: "card",
+      card,
+    });
 
-    const {error, paymentMethod} = await stripe.createPaymentMethod({
-        type: 'card',
-        card
-    })
-
-    if(error){
-        setError(error.message);
-    }else{
-        console.log(paymentMethod)
+    if (error) {
+      setError(error.message);
+    } else {
+      setError("");
     }
-  }
-
-  console.log(error)
+    setPayProcess(true);
+    const { paymentIntent, error: processError } =
+      await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            name: userName,
+            email: email,
+          },
+        },
+      });
+    if (processError) {
+      setError(processError.message);
+    }
+    if (paymentIntent.status === "succeeded") {
+      const paymentInfo = {
+        productName: productName,
+        price: price,
+        status: "Paid",
+        productId: productId,
+        bookingId: _id,
+        transactionId: paymentIntent.id,
+        buyerEmail: user?.email,
+      };
+      fetch(`${process.env.REACT_APP_api_link}/payinfo`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          authorization: `bearer ${localStorage.getItem("buytop-token")}`,
+        },
+        body: JSON.stringify(paymentInfo),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setTransId(paymentIntent.id);
+          toast.success("Payment Completed");
+        });
+    }
+    setPayProcess(false);
+  };
 
   return (
     <div className="py-4 px-4 md:px-4 flex justify-center items-center 2xl:mx-auto 2xl:container">
@@ -75,6 +124,11 @@ const PaymentForm = ({ productInfo }) => {
             <div className="mt-6 sm:mt-0 xl:my-10 xl:px-20 w-52 sm:w-96 xl:w-auto">
               <img src={productPhoto} alt="" />
             </div>
+            {transId && (
+              <h2 className="text-black py-4 px-2 font-semibold rounded-md bg-yellow-500">
+                Your Transaction ID: {transId}
+              </h2>
+            )}
           </div>
           <form
             onSubmit={(e) => handlePayment(e)}
@@ -138,7 +192,7 @@ const PaymentForm = ({ productInfo }) => {
             {<p className="text-red-500 mt-2">{error}</p>}
             <button
               type="submit"
-              disabled={!stripe}
+              disabled={!stripe || !clientSecret || payProcess}
               className="mt-8 border border-gray-300 bg-gray-900 text-white hover:bg-white hover:border-black hover:text-black flex justify-center items-center py-4 rounded w-full"
             >
               <div>
