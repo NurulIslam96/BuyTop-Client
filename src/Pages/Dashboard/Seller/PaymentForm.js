@@ -196,7 +196,7 @@ const PaymentForm = ({ productInfo }) => {
             {!transId ? (
               <button
                 type="submit"
-                disabled={!stripe || !clientSecret || payProcess}
+                disabled={!stripe || !clientSecret}
                 className="mt-8 border border-gray-300 bg-gray-900 text-white hover:bg-white hover:border-black hover:text-black flex justify-center items-center py-4 rounded w-full"
               >
                 <div>
