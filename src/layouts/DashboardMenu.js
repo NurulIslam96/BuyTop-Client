@@ -1,13 +1,18 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import SkeletonLoader from "../components/SkeletonLoader";
+import Spinner from "../components/Spinner";
 import { AuthContext } from "../contexts/AuthProvider";
 import useAdmin from "../Hooks/useAdmin";
+import useBuyer from "../Hooks/useBuyer";
 import useSeller from "../Hooks/useSeller";
 
 const DashboardMenu = () => {
   const { user, logOut } = useContext(AuthContext);
-  const [isAdmin] = useAdmin(user?.email);
-  const [isSeller] = useSeller(user?.email);
+  const [isAdmin, isAdmingLoading] = useAdmin(user?.email);
+  const [isSeller, isSellerLoading] = useSeller(user?.email);
+  const [isBuyer, isBuyerLoading] = useBuyer(user?.email);
+
   const activeLink = ({ isActive }) => {
     return {
       backgroundColor: isActive && "orange",
@@ -16,6 +21,9 @@ const DashboardMenu = () => {
   };
   const handleLogout = () => {
     return logOut();
+  }
+  if(isAdmingLoading || isSellerLoading || isBuyerLoading){
+    return <SkeletonLoader></SkeletonLoader>
   }
 
   return (
@@ -56,7 +64,7 @@ const DashboardMenu = () => {
             </NavLink>
           </li>
           <ul>
-            {!isSeller && !isAdmin && (
+            {isBuyer && (
               <>
                 <li>
                   <NavLink

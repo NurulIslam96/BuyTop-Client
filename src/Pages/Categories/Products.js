@@ -36,7 +36,7 @@ const Products = () => {
   }
 
   return (
-    <div>
+    <div className="mb-10">
       <ProductBanner category={category}></ProductBanner>
       <ProductsDetails result={result} refetch={refetch}></ProductsDetails>
     </div>
