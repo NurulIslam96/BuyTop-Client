@@ -4,6 +4,7 @@ import CategoryCard from "./CategoryCard";
 import CTA from "./CTA";
 import HomeBanner from "./HomeBanner";
 import CustomerReviews from "./CustomerReviews";
+import SiteFeatures from "./SiteFeatures";
 const Home = () => {
   const [categories, setCategories] = useState([]);
 
@@ -22,6 +23,7 @@ const Home = () => {
         ))}
       </div>
       <Advertisement></Advertisement>
+      <SiteFeatures></SiteFeatures>
       <CustomerReviews></CustomerReviews>
       <CTA></CTA>
     </div>

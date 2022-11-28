@@ -30,5 +30,10 @@ https://buy-top-client.web.app
 
 https://buytop-server.vercel.app/
 
+## Admin Credentials
+
+- adminEmail: king@queen.com
+- adminPassword: 123456
+
 
 

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
-import { FaChevronCircleDown, FaUser } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 import SiteLogo from "../../assets/site-logo/site-logo.png";
 
 const Navbar = () => {
@@ -156,9 +156,9 @@ const Navbar = () => {
                   className="menu menu-compact dropdown-content mt-3 p-2 shadow rounded-box w-52 bg-slate-700"
                 >
                   <li>
-                    <span className="justify-between hover:text-yellow-500">
+                    <Link to={'/profile'} className="justify-between hover:text-yellow-500">
                       Your Profile Info
-                    </span>
+                    </Link>
                   </li>
                   <li>
                     <span className="hover:text-yellow-500">Settings</span>
