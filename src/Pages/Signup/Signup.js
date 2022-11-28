@@ -56,7 +56,7 @@ const Signup = () => {
   const handleGoogleLogin = () => {
     googleSignIn().then((result) => {
       toast.success(`Welcome ${result.user.displayName}`);
-      const role = "Seller";
+      const role = "Buyer"
       setUserToken(result.user, role);
     });
     navigate(from, { replace: true });
