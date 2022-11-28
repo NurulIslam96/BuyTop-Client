@@ -26,7 +26,7 @@ const Login = () => {
   const handleGoogleLogin = () => {
     googleSignIn()
     .then(result => {
-      const role = "Seller"
+      const role = "Buyer"
       setUserToken(result.user, role)
       toast.success(`Welcome ${result.user.displayName}`)
       navigate(from, {replace: true})
