@@ -46,16 +46,14 @@ export const routes = createBrowserRouter([
             <Products></Products>
           </PrivateRoute>
         ),
-        loader: ({ params }) =>
-          fetch(`${process.env.REACT_APP_api_link}/category/${params.id}`, {
-            headers: {
-              authorization: `bearer ${localStorage.getItem("buytop-token")}`,
-            },
-          }),
       },
       {
         path: "/profile",
-        element: <PrivateRoute><ProfileInfo></ProfileInfo></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <ProfileInfo></ProfileInfo>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/blogs",
