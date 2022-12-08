@@ -68,7 +68,7 @@ const Signup = () => {
           <div className="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
             <div className="md:w-8/12 md:block hidden lg:w-6/12 mb-12 md:mb-0">
               <img
-                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
+                src="https://i.ibb.co/zQkq713/vecteezy-cloud-computing-modern-flat-concept-for-web-banner-design-5879539.jpg"
                 className="w-full"
                 alt=""
               />
