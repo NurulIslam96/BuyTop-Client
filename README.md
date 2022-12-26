@@ -26,9 +26,13 @@
 
 https://buy-top-client.web.app
 
-## Server Side Link
+## Client Side Repo
 
-https://github.com/programming-hero-web-course-4/b612-used-products-resale-server-side-NurulIslam96
+https://github.com/NurulIslam96/BuyTop-Client
+
+## Server Side Repo
+
+https://github.com/NurulIslam96/BuyTop-Server-side-repo
 
 ## Admin Credentials
 
